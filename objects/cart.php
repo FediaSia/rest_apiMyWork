@@ -1,19 +1,17 @@
 <?php
 
-class User
+class Cart
 {
-    // соединение с БД и таблицей "users"
+    // соединение с БД и таблицей "carts"
     private $conn;
-    private $table_name = "users";
+    private $table_name = "carts";
 
     // свойства объекта
-    public $id;
-    public $username;
-    public $email;
-    public $address;
-    public $city;
-    public $postalCode;
-    public $country;
+    public $id;//
+    public $userid;
+    public $productid;
+    public $quantity;
+    public $item_price;//
     public $created;
 
     // конструктор для соединения с базой данных
@@ -29,29 +27,23 @@ class User
         $query = "INSERT INTO
             " . $this->table_name . "
         SET
-        id=:id, username=:username, email=:email, address=:address, city=:city, postalCode=:postalCode, country=:country, created=:created";
+            id=:id, userid=:userid, productid=:productid, quantity=:quantity, created=:created";
 
         // подготовка запроса
         $stmt = $this->conn->prepare($query);
 
         // очистка
         $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->username = htmlspecialchars(strip_tags($this->username));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->address = htmlspecialchars(strip_tags($this->address));
-        $this->city = htmlspecialchars(strip_tags($this->city));
-        $this->postalCode = htmlspecialchars(strip_tags($this->postalCode));
-        $this->country = htmlspecialchars(strip_tags($this->country));
+        $this->userid = htmlspecialchars(strip_tags($this->userid));
+        $this->productid = htmlspecialchars(strip_tags($this->productid));
+        $this->quantity = htmlspecialchars(strip_tags($this->quantity));
         $this->created = htmlspecialchars(strip_tags($this->created));
 
         // привязка значений
         $stmt->bindParam(":id", $this->id);
-        $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":address", $this->address);
-        $stmt->bindParam(":city", $this->city);
-        $stmt->bindParam(":postalCode", $this->postalCode);
-        $stmt->bindParam(":country", $this->country);
+        $stmt->bindParam(":userid", $this->userid);
+        $stmt->bindParam(":productid", $this->productid);
+        $stmt->bindParam(":quantity", $this->quantity);
         $stmt->bindParam(":created", $this->created);
 
         // выполняем запрос
@@ -61,14 +53,14 @@ class User
         return false;
     }
 
-     // метод для получения списка пользователей
-     function read()
+     // метод для получения списка корзин
+    function read()
     {
          // выбираем все записи
          $query = "SELECT
-         id, username, email, address, city, postalCode, country
+            id, p.userid, quantity, p.productid, quantity, created
             FROM
-                " . $this->table_name . "
+                " . $this->table_name . " p
             ORDER BY
                 id";
          // подготовка запроса
@@ -79,19 +71,16 @@ class User
          return $stmt;
     }
 
-    // метод для обновления  юзера
+    // метод для обновления корзин
     function update()
     {
-        // запрос для обновления записи (юзера)
+        // запрос для обновления записи (корзины)
         $query = "UPDATE
             " . $this->table_name . "
         SET
-        username = :username,
-        email = :email,
-        address = :address,
-        city = :city,
-        postalCode = :postalCode,
-        country = :country
+            userid = :userid,
+            productid = :productid,
+            quantity = :quantity
         WHERE
             id = :id";
 
@@ -99,23 +88,16 @@ class User
         $stmt = $this->conn->prepare($query);
 
         // очистка
-        $this->username = htmlspecialchars(strip_tags($this->username));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->address = htmlspecialchars(strip_tags($this->address));
-        $this->city = htmlspecialchars(strip_tags($this->city));
-        $this->postalCode = htmlspecialchars(strip_tags($this->postalCode));
-        $this->country = htmlspecialchars(strip_tags($this->country));
+        $this->userid = htmlspecialchars(strip_tags($this->userid));
+        $this->productid = htmlspecialchars(strip_tags($this->productid));
+        $this->quantity = htmlspecialchars(strip_tags($this->quantity));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         // привязка значений
-        $stmt->bindParam(":username", $this->username);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":address", $this->address);
-        $stmt->bindParam(":city", $this->city);
-        $stmt->bindParam(":postalCode", $this->postalCode);
-        $stmt->bindParam(":country", $this->country);
+        $stmt->bindParam(":userid", $this->userid);
+        $stmt->bindParam(":productid", $this->productid);
+        $stmt->bindParam(":quantity", $this->quantity);
         $stmt->bindParam(":id", $this->id);
-
 
         // выполняем запрос
         if ($stmt->execute()) {
@@ -124,7 +106,7 @@ class User
         return false;
     }
 
-    // метод для удаления пользователя
+    // метод для удаления корзин
     function delete()
     {
         // запрос для удаления записи (пользователя)

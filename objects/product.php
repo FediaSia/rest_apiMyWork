@@ -7,40 +7,18 @@ class Product
     private $table_name = "products";
 
     // свойства объекта
-    public $id;
+    public $id;//
     public $name;
     public $description;
     public $price;
     public $category_id;
-    public $category_name;
+    public $category_name;//
     public $created;
 
     // конструктор для соединения с базой данных
     public function __construct($db)
     {
         $this->conn = $db;
-    }
-
-    // метод для получения товаров
-    function read()
-    {
-        // выбираем все записи
-        $query = "SELECT
-        c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
-    FROM
-        " . $this->table_name . " p
-        LEFT JOIN
-            categories c
-                ON p.category_id = c.id
-    ORDER BY
-        id";
-
-        // подготовка запроса
-        $stmt = $this->conn->prepare($query);
-
-        // выполняем запрос
-        $stmt->execute();
-        return $stmt;
     }
 
     // метод для создания товаров
@@ -50,7 +28,7 @@ class Product
         $query = "INSERT INTO
             " . $this->table_name . "
         SET
-            name=:name, price=:price, description=:description, category_id=:category_id, created=:created";
+            name=:name, description=:description, price=:price, category_id=:category_id, created=:created";
 
         // подготовка запроса
         $stmt = $this->conn->prepare($query);
@@ -75,6 +53,28 @@ class Product
         }
         return false;
     }
+
+        // метод для получения товаров
+        function read()
+        {
+            // выбираем все записи
+            $query = "SELECT
+            c.name as category_name, p.id, p.name, p.description, p.price, p.category_id, p.created
+        FROM
+            " . $this->table_name . " p
+            LEFT JOIN
+                categories c
+                    ON p.category_id = c.id
+        ORDER BY
+            id";
+    
+            // подготовка запроса
+            $stmt = $this->conn->prepare($query);
+    
+            // выполняем запрос
+            $stmt->execute();
+            return $stmt;
+        }
 
     // метод для получения конкретного товара по ID
     function readOne()
