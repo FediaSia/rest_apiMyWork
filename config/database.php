@@ -3,10 +3,10 @@
 class Database
 {
     // укажите свои учетные данные базы данных
-    private $host = "server100.hosting.reg.ru";
-    private $db_name = "u2123047_DB";
-    private $username = "u2123047_default";
-    private $password = "pG7qb3cw66myLlPG";
+    private $host = "localhost";
+    private $db_name = "api_db";
+    private $username = "root";
+    private $password = "";
     public $conn;
 
     // получаем соединение с БД
