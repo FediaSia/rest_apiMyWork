@@ -42,5 +42,5 @@ else {
     http_response_code(503);
 
     // сообщение пользователю
-    echo json_encode(array("message" => "Невозможно обновить пользователя"), JSON_UNESCAPED_UNICODE);
+    echo json_encode(array("message" => "Невозможно обновить корзину"), JSON_UNESCAPED_UNICODE);
 }

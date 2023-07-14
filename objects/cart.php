@@ -27,20 +27,18 @@ class Cart
         $query = "INSERT INTO
             " . $this->table_name . "
         SET
-            id=:id, userid=:userid, productid=:productid, quantity=:quantity, created=:created";
+            userid=:userid, productid=:productid, quantity=:quantity, created=:created";
 
         // подготовка запроса
         $stmt = $this->conn->prepare($query);
 
         // очистка
-        $this->id = htmlspecialchars(strip_tags($this->id));
         $this->userid = htmlspecialchars(strip_tags($this->userid));
         $this->productid = htmlspecialchars(strip_tags($this->productid));
         $this->quantity = htmlspecialchars(strip_tags($this->quantity));
         $this->created = htmlspecialchars(strip_tags($this->created));
 
         // привязка значений
-        $stmt->bindParam(":id", $this->id);
         $stmt->bindParam(":userid", $this->userid);
         $stmt->bindParam(":productid", $this->productid);
         $stmt->bindParam(":quantity", $this->quantity);
@@ -126,6 +124,36 @@ class Cart
             return true;
         }
         return false;
+    }
+
+    // метод для получения конкретной карзины по userid
+    function read_onecart()
+    {
+        // запрос для чтения одной записи (корзины)
+        $query = "SELECT
+            id, userid, productid, quantity, created 
+        FROM 
+            " . $this->table_name . " 
+        WHERE 
+            userid = ?";
+
+        // подготовка запроса
+        $stmt = $this->conn->prepare($query);
+
+        // привязываем userid корзины, которая будет получена
+        $stmt->bindParam(1, $this->userid);
+
+        // выполняем запрос
+        $stmt->execute();
+
+        // получаем извлеченную строку
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // установим значения свойств объекта
+        $this->id = $row["id"];
+        $this->userid = $row["userid"];
+        $this->productid = $row["productid"];
+        $this->quantity = $row["quantity"];
     }
 
 }

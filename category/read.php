@@ -24,7 +24,7 @@ if ($num > 0) {
 
     // массив для записей
     $categories_arr = array();
-    $categories_arr["records"] = array();
+    $categories_arr["categories"] = array();
 
     // получим содержимое нашей таблицы
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -36,7 +36,7 @@ if ($num > 0) {
             "name" => $name,
             "description" => html_entity_decode($description)
         );
-        array_push($categories_arr["records"], $category_item);
+        array_push($categories_arr["categories"], $category_item);
     }
     // код ответа - 200 OK
     http_response_code(200);

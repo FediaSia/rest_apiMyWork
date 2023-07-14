@@ -21,7 +21,6 @@ $data = json_decode(file_get_contents("php://input"));
 
 // убеждаемся, что данные не пусты
 if (
-    !empty($data->id) &&
     !empty($data->username) &&
     !empty($data->email) &&
     !empty($data->address) &&
@@ -31,7 +30,6 @@ if (
 
     // устанавливаем значения свойств пользователя
 ) {
-    $user->id = $data->id;
     $user->username = $data->username;
     $user->email = $data->email;
     $user->address = $data->address;

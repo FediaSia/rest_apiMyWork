@@ -23,7 +23,7 @@ $num = $stmt->rowCount();
 if ($num > 0) {
     // массив товаров
     $users_arr = array();
-    $users_arr["records"] = array();
+    $users_arr["users"] = array();
 
     // получаем содержимое нашей таблицы
     // fetch() быстрее, чем fetchAll()
@@ -39,7 +39,7 @@ if ($num > 0) {
             "postalCode" => $postalCode,
             "country" => $country
         );
-        array_push($users_arr["records"], $user_item);
+        array_push($users_arr["users"], $user_item);
     }
 
     // устанавливаем код ответа - 200 OK

@@ -24,7 +24,7 @@ $data = json_decode(file_get_contents("php://input"));
 // установим id для удаления
 $cart->id = $data->id;
 
-// удаление юзера
+// удаление корзины
 if ($cart->delete()) {
     // код ответа - 200 ok
     http_response_code(200);

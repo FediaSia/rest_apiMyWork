@@ -23,7 +23,7 @@ $num = $stmt->rowCount();
 if ($num > 0) {
     // массив товаров
     $carts_arr = array();
-    $carts_arr["records"] = array();
+    $carts_arr["cart"] = array();
 
     // получаем содержимое нашей корзины
     // fetch() быстрее, чем fetchAll()
@@ -36,7 +36,7 @@ if ($num > 0) {
             "productid" => $productid,
             "quantity" => $quantity
         );
-        array_push($carts_arr["records"], $cart_item);
+        array_push($carts_arr["cart"], $cart_item);
     }
 
     // устанавливаем код ответа - 200 OK
